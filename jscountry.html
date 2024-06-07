@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country API</title>
+</head>
+
+<body>
+
+  <div id="output"></div>
+
+  <table class="tblA" border="1" cellspacing="1" cellpadding="1">
+    <tr class="tblA">
+      <th id="thNaam" style="width: 200px;">Naam</th>
+      <th id="thVlag" style="width: 200px;">Vlag</th>
+      <th id="thBuurlanden" style="width: 200px;">Buur-Landen</th>
+    </tr>
+
+    <tbody id="tblA">
+
+    </tbody>
+  </table>
+
+  <script>
+
+    let url = "https://restcountries.com/v3.1/all";
+
+    fetch(url)
+      .then(data => {
+        return data.json();
+      })
+      .then(json => {
+        //console.log("json = ", json);
+
+        let landen = json
+        let html = '';
+
+        for (let i = 0; i < landen.length; i++) {
+          let land = landen[i];
+          //html += '<b> Land naam: <b/>' + land.name.official + '<br>';
+        }
+
+        document.getElementById("output").innerHTML = html;
+
+        let html2 = '';
+        for (let i = 0; i < landen.length; i++) {
+          {
+            html2 += '<tr>'
+
+            html2 += '<td>' + landen[i].name.official + '</td>'
+            html2 += '<td>' + "<img src=" + landen[i].flags.png + ">" + '</td>'
+
+            if (landen[i].borders != undefined) {
+              html2 += '<td>'
+
+              for (let j = 0; j < landen[i].borders.length; j++) {
+                html2 += '<li>' + landen[i].borders[j] + '</li>'
+
+              }
+              html2 += '</td>'
+            }
+            else {
+              //geen borders
+            }
+
+
+
+            html2 += '</tr>'
+
+          }
+          //console.log(json);
+          console.log(landen)
+
+          document.getElementById('tblA').innerHTML = html2;
+        }
+      });
+
+
+
+  </script>
+</body>
+
+</html>

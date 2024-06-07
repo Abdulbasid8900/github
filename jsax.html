@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS API</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+    <style>
+        thead {
+            
+            background-color: lightgrey;
+        }
+
+        td {
+         border: 10px light grey solid;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="beerTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Naam</th>
+                <th>Brouwer</th>
+                <th>Type</th>
+                <th>Gisting</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+
+        let url = "https://15euros.nl/api/bier_basic.php";
+        //console.log("in fLoadJson. URL = " + url);
+        axios.get(url)
+            .then((response) => {
+                let beers = response.data;
+                console.log("beers", beers);
+                fShow(beers);
+            })
+            .catch(function (error) {
+                console.log("error=", error);
+            });
+
+        function fShow(beers) {
+            let table = document.getElementById('beerTable');
+            let html = "";
+            for (let i = 0; i < beers.length; i++) {
+                let beer = beers[i];
+
+                html += "<tr>";
+                html += "<td>" + ((i) + 1) + "</td>";
+                html += "<td>" + beer.naam + "</td>";
+                html += "<td>" + beer.brouwer + "</td>";
+                html += "<td>" + beer.type + "</td>";
+                html += "<td>" + beer.gisting + "</td>";
+                html += "<td>" + Math.round(beers[i].perc * 10000) / 100 + "%" + "</td>";
+                html += "</tr>";
+            }
+            table.innerHTML += html;
+        }
+    </script>
+</body>
+
+</html>
